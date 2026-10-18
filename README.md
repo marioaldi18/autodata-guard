@@ -1,8 +1,6 @@
 # AutoDataGuard
 
 Automated data quality validation and anomaly detection for tabular order data.
-Project 01 of a 23-project AI / analytics portfolio. **All data is synthetic**; results do not
-represent any real company.
 
 ## Business problem
 
