@@ -1,0 +1,398 @@
+{
+  "config": {
+    "seed": 42,
+    "data": {
+      "n_rows": 10000,
+      "start_date": "2024-01-01",
+      "reference_date": "2025-12-31",
+      "anomaly_rate": 0.02,
+      "dq_issue_rate": 0.06,
+      "duplicate_rate": 0.01
+    },
+    "split": {
+      "val_size": 0.2,
+      "test_size": 0.2
+    },
+    "models": {
+      "isolation_forest": {
+        "n_estimators": 200
+      },
+      "lof": {
+        "n_neighbors": 35
+      }
+    },
+    "threshold": {
+      "max_fpr": 0.01
+    }
+  },
+  "dataset": {
+    "n_rows_raw": 10100,
+    "n_rows_modeling": 10000,
+    "n_duplicates_removed": 100,
+    "n_anomalies": 200,
+    "anomaly_rate_modeling": 0.02,
+    "splits": [
+      {
+        "split": "train",
+        "rows": 6000,
+        "anomalies": 120
+      },
+      {
+        "split": "val",
+        "rows": 2000,
+        "anomalies": 40
+      },
+      {
+        "split": "test",
+        "rows": 2000,
+        "anomalies": 40
+      }
+    ]
+  },
+  "validation": {
+    "dimension_scores": {
+      "completeness": 0.9984518451845185,
+      "validity": 0.996912691269127,
+      "uniqueness": 0.9900990099009901,
+      "consistency": 0.9862376237623762
+    },
+    "overall_score": 0.9929252925292529,
+    "counts_by_rule": [
+      {
+        "rule": "total_mismatch",
+        "dimension": "consistency",
+        "severity": "error",
+        "violations": 139,
+        "rows_affected": 139
+      },
+      {
+        "rule": "duplicate_key",
+        "dimension": "uniqueness",
+        "severity": "error",
+        "violations": 100,
+        "rows_affected": 100
+      },
+      {
+        "rule": "invalid_category",
+        "dimension": "validity",
+        "severity": "error",
+        "violations": 86,
+        "rows_affected": 86
+      },
+      {
+        "rule": "missing_optional",
+        "dimension": "completeness",
+        "severity": "warning",
+        "violations": 86,
+        "rows_affected": 86
+      },
+      {
+        "rule": "missing_required",
+        "dimension": "completeness",
+        "severity": "error",
+        "violations": 86,
+        "rows_affected": 86
+      },
+      {
+        "rule": "out_of_range",
+        "dimension": "validity",
+        "severity": "error",
+        "violations": 86,
+        "rows_affected": 86
+      },
+      {
+        "rule": "type_mismatch",
+        "dimension": "validity",
+        "severity": "error",
+        "violations": 86,
+        "rows_affected": 86
+      },
+      {
+        "rule": "future_date",
+        "dimension": "validity",
+        "severity": "error",
+        "violations": 85,
+        "rows_affected": 85
+      }
+    ],
+    "rule_engine_eval": {
+      "n_flagged_rows": 700,
+      "n_injected_rows": 700,
+      "true_positive_rows": 700,
+      "false_positive_rows": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "per_type": [
+        {
+          "dq_issue_type": "duplicate_key",
+          "n_injected": 100,
+          "detected": 100,
+          "recall": 1.0
+        },
+        {
+          "dq_issue_type": "future_date",
+          "n_injected": 85,
+          "detected": 85,
+          "recall": 1.0
+        },
+        {
+          "dq_issue_type": "invalid_category",
+          "n_injected": 86,
+          "detected": 86,
+          "recall": 1.0
+        },
+        {
+          "dq_issue_type": "missing_optional",
+          "n_injected": 86,
+          "detected": 86,
+          "recall": 1.0
+        },
+        {
+          "dq_issue_type": "missing_required",
+          "n_injected": 86,
+          "detected": 86,
+          "recall": 1.0
+        },
+        {
+          "dq_issue_type": "out_of_range",
+          "n_injected": 86,
+          "detected": 86,
+          "recall": 1.0
+        },
+        {
+          "dq_issue_type": "total_mismatch",
+          "n_injected": 85,
+          "detected": 85,
+          "recall": 1.0
+        },
+        {
+          "dq_issue_type": "type_error",
+          "n_injected": 86,
+          "detected": 86,
+          "recall": 1.0
+        }
+      ]
+    }
+  },
+  "models": {
+    "robust_zscore_baseline": {
+      "val": {
+        "roc_auc": 0.998265306122449,
+        "pr_auc": 0.9464960862880151,
+        "prevalence": 0.02
+      },
+      "val_at_max_f1": {
+        "threshold": 4.11445,
+        "precision": 0.925,
+        "recall": 0.925,
+        "f1": 0.925,
+        "fpr": 0.001530612244897959,
+        "tp": 37,
+        "fp": 3,
+        "fn": 3,
+        "tn": 1957,
+        "flagged_rate": 0.02
+      },
+      "test": {
+        "roc_auc": 0.9986160714285713,
+        "pr_auc": 0.937690096826676,
+        "prevalence": 0.02,
+        "at_max_f1": {
+          "threshold": 4.11445,
+          "precision": 0.9090909090909091,
+          "recall": 0.75,
+          "f1": 0.821917808219178,
+          "fpr": 0.001530612244897959,
+          "tp": 30,
+          "fp": 3,
+          "fn": 10,
+          "tn": 1957,
+          "flagged_rate": 0.0165
+        },
+        "at_fpr_budget": {
+          "threshold": 3.179785714285715,
+          "precision": 0.75,
+          "recall": 0.975,
+          "f1": 0.8478260869565216,
+          "fpr": 0.0066326530612244895,
+          "tp": 39,
+          "fp": 13,
+          "fn": 1,
+          "tn": 1947,
+          "flagged_rate": 0.026
+        }
+      }
+    },
+    "isolation_forest": {
+      "val": {
+        "roc_auc": 0.970204081632653,
+        "pr_auc": 0.6175706012297811,
+        "prevalence": 0.02
+      },
+      "val_at_max_f1": {
+        "threshold": 0.575870065645701,
+        "precision": 0.6764705882352942,
+        "recall": 0.575,
+        "f1": 0.6216216216216216,
+        "fpr": 0.005612244897959183,
+        "tp": 23,
+        "fp": 11,
+        "fn": 17,
+        "tn": 1949,
+        "flagged_rate": 0.017
+      },
+      "test": {
+        "roc_auc": 0.9821938775510204,
+        "pr_auc": 0.7178905199542086,
+        "prevalence": 0.02,
+        "at_max_f1": {
+          "threshold": 0.575870065645701,
+          "precision": 0.7,
+          "recall": 0.525,
+          "f1": 0.6,
+          "fpr": 0.004591836734693878,
+          "tp": 21,
+          "fp": 9,
+          "fn": 19,
+          "tn": 1951,
+          "flagged_rate": 0.015
+        },
+        "at_fpr_budget": {
+          "threshold": 0.5692585177420023,
+          "precision": 0.6666666666666666,
+          "recall": 0.55,
+          "f1": 0.6027397260273972,
+          "fpr": 0.005612244897959183,
+          "tp": 22,
+          "fp": 11,
+          "fn": 18,
+          "tn": 1949,
+          "flagged_rate": 0.0165
+        }
+      }
+    },
+    "local_outlier_factor": {
+      "val": {
+        "roc_auc": 0.9799489795918367,
+        "pr_auc": 0.6943172460523324,
+        "prevalence": 0.02
+      },
+      "val_at_max_f1": {
+        "threshold": 1.52875639202342,
+        "precision": 0.8387096774193549,
+        "recall": 0.65,
+        "f1": 0.7323943661971831,
+        "fpr": 0.002551020408163265,
+        "tp": 26,
+        "fp": 5,
+        "fn": 14,
+        "tn": 1955,
+        "flagged_rate": 0.0155
+      },
+      "test": {
+        "roc_auc": 0.9809438775510204,
+        "pr_auc": 0.7540497394142717,
+        "prevalence": 0.02,
+        "at_max_f1": {
+          "threshold": 1.52875639202342,
+          "precision": 0.8214285714285714,
+          "recall": 0.575,
+          "f1": 0.676470588235294,
+          "fpr": 0.002551020408163265,
+          "tp": 23,
+          "fp": 5,
+          "fn": 17,
+          "tn": 1955,
+          "flagged_rate": 0.014
+        },
+        "at_fpr_budget": {
+          "threshold": 1.3927941930866754,
+          "precision": 0.7105263157894737,
+          "recall": 0.675,
+          "f1": 0.6923076923076923,
+          "fpr": 0.005612244897959183,
+          "tp": 27,
+          "fp": 11,
+          "fn": 13,
+          "tn": 1949,
+          "flagged_rate": 0.019
+        }
+      }
+    }
+  },
+  "selected_model": "robust_zscore_baseline",
+  "selection_criterion": "validation PR-AUC",
+  "per_type_recall": [
+    {
+      "anomaly_type": "price_spike",
+      "n_test": 13,
+      "detected": 11,
+      "recall": 0.8461538461538461
+    },
+    {
+      "anomaly_type": "bulk_quantity",
+      "n_test": 9,
+      "detected": 7,
+      "recall": 0.7777777777777778
+    },
+    {
+      "anomaly_type": "extreme_discount",
+      "n_test": 8,
+      "detected": 2,
+      "recall": 0.25
+    },
+    {
+      "anomaly_type": "slow_shipping",
+      "n_test": 10,
+      "detected": 10,
+      "recall": 1.0
+    }
+  ],
+  "false_positive_analysis": {
+    "n_false_positives": 3,
+    "n_negatives": 1960,
+    "fp_rate": 0.001530612244897959,
+    "share_with_dq_issue": 1.0,
+    "top_driver_counts": {
+      "log_price_ratio": 3
+    },
+    "examples": [
+      {
+        "row_index": 6411,
+        "score": 5.438426547882645,
+        "top_driver": "log_price_ratio",
+        "product_category": "Gadgets",
+        "quantity": 3,
+        "unit_price": 501.62,
+        "discount_pct": 15,
+        "shipping_days": 4,
+        "customer_age": 38,
+        "dq_issue_type": "invalid_category"
+      },
+      {
+        "row_index": 2424,
+        "score": 4.446818745136211,
+        "top_driver": "log_price_ratio",
+        "product_category": "Gadgets",
+        "quantity": 1,
+        "unit_price": 9.74,
+        "discount_pct": 5,
+        "shipping_days": 5,
+        "customer_age": 22,
+        "dq_issue_type": "invalid_category"
+      },
+      {
+        "row_index": 6531,
+        "score": 4.22105886838173,
+        "top_driver": "log_price_ratio",
+        "product_category": "clothing ",
+        "quantity": 2,
+        "unit_price": 308.72,
+        "discount_pct": 0,
+        "shipping_days": 5,
+        "customer_age": 48,
+        "dq_issue_type": "invalid_category"
+      }
+    ]
+  }
+}
